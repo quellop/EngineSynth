@@ -59,73 +59,70 @@
   --rubber: #101113;
 }
 
-html { scroll-padding-top: env(safe-area-inset-top, 0px); background: var(--bg); }
+html { scroll-padding-top: env(safe-area-inset-top, 0px); background: var(--bg); height: 100%; overflow: hidden; }
 body {
-  margin: 0; min-height: 100%;
-  background: radial-gradient(1400px 700px at 50% -10%, var(--bg-hi), var(--bg) 70%) no-repeat, var(--bg);
-  color: var(--ink); font-family: var(--num); font-size: 17px; line-height: 1.45;
+  margin: 0; height: 100%; overflow: hidden;
+  background: radial-gradient(1000px 520px at 50% -10%, var(--bg-hi), var(--bg) 70%) no-repeat, var(--bg);
+  color: var(--ink); font-family: var(--num); font-size: 14px; line-height: 1.35;
   -webkit-text-size-adjust: 100%;
 }
 button { font: inherit; color: inherit; -webkit-tap-highlight-color: transparent; }
-button:focus-visible, input:focus-visible { outline: 3px solid var(--needle); outline-offset: 4px; }
+button:focus-visible, input:focus-visible { outline: 3px solid var(--needle); outline-offset: 3px; }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
-.app { max-width: 1320px; margin: 0 auto; padding: 22px clamp(14px, 3vw, 40px) 30px; display: grid; gap: clamp(18px, 2.4vw, 30px); }
-
-/* Header */
-.top { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
-.top h1 { margin: 0; font-size: clamp(24px, 2.8vw, 36px); font-weight: 700; font-stretch: 125%; font-variation-settings: "wdth" 125; letter-spacing: -0.01em; line-height: 1; }
-.top p { margin: 8px 0 0; color: var(--muted); font-size: 16px; }
+/* The whole app is laid out at 733 x 601 and scaled to fit the window */
+.fit {
+  position: fixed; left: 0; top: 0; width: 733px; height: 601px; transform-origin: 0 0;
+  padding: 8px; display: grid; grid-template-rows: 286px 1fr; gap: 8px;
+}
 
 /* Toggle switches */
-.tgl { display: grid; justify-items: center; gap: 6px; }
-.tl { font-size: 13px; font-weight: 600; color: var(--muted); transition: color .2s; }
-.tl.on { color: var(--ink); }
-.console .tl { color: var(--on-leather-muted); }
-.console .tl.on { color: var(--on-leather); }
+.tgl { display: grid; justify-items: center; gap: 3px; }
+.tl { font-size: 11px; font-weight: 600; color: var(--on-leather-muted); transition: color .2s; line-height: 1.2; }
+.tl.on { color: var(--on-leather); }
 .sw {
-  position: relative; width: 58px; height: 74px; border: 0; padding: 0; border-radius: 12px; cursor: pointer;
+  position: relative; width: 42px; height: 54px; border: 0; padding: 0; border-radius: 10px; cursor: pointer;
   background: linear-gradient(180deg, var(--metal-hi), var(--metal-mid));
   box-shadow: inset 0 1px 0 rgba(255,255,255,.7), 0 3px 6px rgba(0,0,0,.35), 0 0 0 1px rgba(0,0,0,.18);
 }
 .sw .lever {
-  position: absolute; left: 50%; top: 50%; width: 12px; height: 36px; margin-left: -6px;
-  transform-origin: 50% 0; transform: rotate(0deg); border-radius: 6px;
+  position: absolute; left: 50%; top: 50%; width: 9px; height: 26px; margin-left: -4.5px;
+  transform-origin: 50% 0; transform: rotate(0deg); border-radius: 5px;
   background: linear-gradient(90deg, var(--metal-lo), var(--metal-hi) 45%, var(--metal-mid));
   box-shadow: 0 3px 4px rgba(0,0,0,.35);
   transition: transform .2s cubic-bezier(.4, 1.6, .5, 1);
 }
 .sw .lever::after {
-  content: ""; position: absolute; left: -4px; bottom: -6px; width: 20px; height: 20px; border-radius: 50%;
+  content: ""; position: absolute; left: -3px; bottom: -5px; width: 15px; height: 15px; border-radius: 50%;
   background: radial-gradient(circle at 35% 30%, var(--metal-hi), var(--metal-mid) 65%, var(--metal-lo));
   box-shadow: 0 2px 3px rgba(0,0,0,.45);
 }
 .sw[aria-checked="true"] .lever { transform: rotate(180deg); }
 .sw .nut {
-  position: absolute; left: 50%; top: 50%; width: 26px; height: 26px; margin: -13px 0 0 -13px; border-radius: 50%; z-index: 2;
+  position: absolute; left: 50%; top: 50%; width: 20px; height: 20px; margin: -10px 0 0 -10px; border-radius: 50%; z-index: 2;
   background: radial-gradient(circle at 35% 30%, var(--metal-hi), var(--metal-mid) 60%, var(--metal-lo));
-  box-shadow: 0 1px 2px rgba(0,0,0,.5), inset 0 0 0 3px rgba(0,0,0,.08);
+  box-shadow: 0 1px 2px rgba(0,0,0,.5), inset 0 0 0 2px rgba(0,0,0,.08);
 }
 
 /* Binnacle */
 .binnacle {
   --px: 0; --py: 0;
-  position: relative;
-  padding: clamp(18px, 3vw, 38px) clamp(18px, 3.6vw, 52px) clamp(16px, 2vw, 24px);
-  border-radius: clamp(36px, 7vw, 116px);
+  position: relative; padding: 10px 18px;
+  border-radius: 60px;
   background: linear-gradient(180deg, var(--housing-hi), var(--housing-lo));
-  box-shadow: inset 0 1px 0 var(--housing-line), inset 0 -3px 10px rgba(0,0,0,.35), 0 44px 70px -32px rgba(0,0,0,.65);
+  box-shadow: inset 0 1px 0 var(--housing-line), inset 0 -3px 10px rgba(0,0,0,.35), 0 24px 40px -22px rgba(0,0,0,.65);
 }
-.dials { display: grid; grid-template-columns: 1fr 1.38fr 1fr; align-items: center; gap: clamp(8px, 2vw, 28px); }
+.dials { display: flex; justify-content: center; align-items: center; gap: 22px; height: 214px; }
 .dial {
-  position: relative; width: 100%; aspect-ratio: 1; border-radius: 50%; padding: 5.5%;
+  position: relative; flex: none; width: 168px; height: 168px; border-radius: 50%; padding: 9px;
   background: conic-gradient(from 210deg, var(--metal-hi), var(--metal-mid) 12%, var(--metal-hi) 25%, var(--metal-lo) 38%, var(--metal-hi) 52%, var(--metal-mid) 66%, var(--metal-hi) 80%, var(--metal-lo) 92%, var(--metal-hi));
-  box-shadow: 0 12px 26px -8px rgba(0,0,0,.65), 0 2px 3px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.35);
+  box-shadow: 0 10px 20px -8px rgba(0,0,0,.65), 0 2px 3px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.35);
 }
-.dial.side { width: 88%; justify-self: center; }
+.dial.main { width: 214px; height: 214px; padding: 11px; }
 .face {
   position: relative; width: 100%; height: 100%; border-radius: 50%; overflow: hidden;
   background: radial-gradient(circle at 50% 40%, var(--face), var(--face-lo));
-  box-shadow: inset 0 6px 18px var(--face-shadow), inset 0 0 0 2px rgba(0,0,0,.25);
+  box-shadow: inset 0 5px 14px var(--face-shadow), inset 0 0 0 2px rgba(0,0,0,.25);
 }
 .face svg { display: block; width: 100%; height: 100%; }
 .face::after {
@@ -137,8 +134,8 @@ button:focus-visible, input:focus-visible { outline: 3px solid var(--needle); ou
 .tick { stroke: var(--dial-muted); stroke-width: 1.6; }
 .tick.mj { stroke: var(--dial-ink); stroke-width: 3; }
 .redband { stroke: var(--red); }
-.dl { fill: var(--dial-ink); font-family: var(--num); font-weight: 600; font-size: 21px; font-variation-settings: "wdth" 75; }
-.lbl { fill: var(--dial-muted); font-family: var(--num); font-weight: 500; font-size: 13px; }
+.dl { fill: var(--dial-ink); font-family: var(--num); font-weight: 600; font-size: 24px; font-variation-settings: "wdth" 75; }
+.lbl { fill: var(--dial-muted); font-family: var(--num); font-weight: 500; font-size: 15px; }
 .digit { fill: var(--dial-ink); font-family: var(--num); font-weight: 500; font-variation-settings: "wdth" 80; font-variant-numeric: tabular-nums; }
 .ndl polygon { fill: var(--needle); }
 .ndl { filter: drop-shadow(0 0 5px var(--glow)); }
@@ -148,27 +145,40 @@ button:focus-visible, input:focus-visible { outline: 3px solid var(--needle); ou
 
 /* Status strip */
 .strip {
-  margin-top: clamp(12px, 1.8vw, 22px);
-  display: grid; grid-template-columns: minmax(160px, 1fr) 2fr minmax(160px, 1fr); align-items: center; gap: 18px;
-  padding: 10px 26px; border-radius: 999px; background: var(--strip);
+  margin-top: 8px; height: 44px;
+  display: grid; grid-template-columns: 168px minmax(0, 1fr) 150px; align-items: center; gap: 12px;
+  padding: 0 18px; border-radius: 22px; background: var(--strip);
   box-shadow: inset 0 2px 7px rgba(0,0,0,.5), 0 1px 0 var(--housing-line);
 }
-.s-main { font-weight: 600; font-size: 18px; font-variation-settings: "wdth" 110; color: var(--strip-ink); line-height: 1.2; }
-.s-sub { font-size: 13px; color: var(--strip-muted); line-height: 1.3; }
-.strip .right { text-align: right; }
-#wave { display: block; width: 100%; height: 46px; }
+.s-main { font-weight: 600; font-size: 14px; font-variation-settings: "wdth" 105; color: var(--strip-ink); line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.s-sub { font-size: 11px; color: var(--strip-muted); line-height: 1.25; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.sl .s-sub { -webkit-line-clamp: 1; }
+.sl, .sr { min-width: 0; }
+.sr { text-align: right; }
+.sc { position: relative; min-width: 0; height: 36px; display: flex; align-items: center; }
+#wave { display: block; width: 100%; height: 36px; }
+.mini { display: none; width: 100%; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+.mini .k { font-size: 10px; color: var(--strip-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mini .v { display: flex; align-items: center; gap: 5px; font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; font-variation-settings: "wdth" 85; color: var(--strip-ink); white-space: nowrap; overflow: hidden; }
+.dot { flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--strip-muted); }
+.dot.live { background: #3fbf6a; box-shadow: 0 0 7px rgba(63,191,106,.7); }
+.dot.stale { background: #e0a92e; }
+.gerr { display: none; font-size: 12px; line-height: 1.3; color: var(--strip-ink); }
+.strip.gps-on #wave { display: none; }
+.strip.gps-on .mini { display: grid; }
+.strip.gps-err .mini { display: none; }
+.strip.gps-err .gerr { display: block; }
 
 /* Console */
 .console {
   position: relative; isolation: isolate;
-  display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: clamp(20px, 4vw, 56px);
-  padding: clamp(26px, 3vw, 38px) clamp(24px, 3.6vw, 48px);
-  border-radius: 30px; color: var(--on-leather);
+  display: grid; grid-template-columns: 168px minmax(0, 1fr) 172px; align-items: center; gap: 10px;
+  padding: 10px 16px; border-radius: 24px; color: var(--on-leather);
   background: linear-gradient(180deg, var(--leather), var(--leather-lo));
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.14), inset 0 -12px 30px rgba(0,0,0,.35), 0 22px 40px -24px rgba(0,0,0,.6);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.14), inset 0 -12px 30px rgba(0,0,0,.35), 0 16px 30px -20px rgba(0,0,0,.6);
 }
 .console::before {
-  content: ""; position: absolute; inset: 11px; border: 2px dashed var(--stitch); border-radius: 21px; opacity: .55; pointer-events: none; z-index: -1;
+  content: ""; position: absolute; inset: 7px; border: 2px dashed var(--stitch); border-radius: 18px; opacity: .55; pointer-events: none; z-index: -1;
 }
 .console::after {
   content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: -1; opacity: .45; mix-blend-mode: multiply;
@@ -176,114 +186,82 @@ button:focus-visible, input:focus-visible { outline: 3px solid var(--needle); ou
 }
 
 /* Engine selector knob */
-.selector { display: grid; justify-items: center; gap: 4px; }
-.knobwrap { position: relative; width: 244px; height: 232px; }
+.selector { display: grid; justify-items: center; gap: 2px; }
+.knobwrap { position: relative; width: 168px; height: 150px; }
 .knob {
-  position: absolute; left: 50%; top: 50%; width: 140px; height: 140px; margin: -70px 0 0 -70px;
+  position: absolute; left: 50%; top: 50%; width: 88px; height: 88px; margin: -44px 0 0 -44px;
   border-radius: 50%; border: 0; padding: 0; cursor: grab; touch-action: none;
   background: repeating-conic-gradient(var(--metal-lo) 0deg 2.5deg, var(--metal-hi) 2.5deg 5deg);
-  box-shadow: 0 14px 22px -6px rgba(0,0,0,.65), 0 3px 4px rgba(0,0,0,.4);
+  box-shadow: 0 10px 16px -5px rgba(0,0,0,.65), 0 3px 4px rgba(0,0,0,.4);
   transition: transform .34s cubic-bezier(.3, 1.4, .5, 1);
 }
 .knob:active { cursor: grabbing; }
 .knob .cap {
-  position: absolute; inset: 12px; border-radius: 50%;
+  position: absolute; inset: 8px; border-radius: 50%;
   background:
     radial-gradient(circle at 50% 50%, rgba(255,255,255,0) 40%, rgba(0,0,0,.18) 100%),
     conic-gradient(from 30deg, var(--metal-hi), var(--metal-mid) 15%, var(--metal-hi) 30%, var(--metal-lo) 45%, var(--metal-hi) 60%, var(--metal-mid) 75%, var(--metal-hi) 90%);
   box-shadow: inset 0 1px 0 rgba(255,255,255,.7), 0 0 0 1px rgba(0,0,0,.25);
 }
-.knob .mark { position: absolute; left: 50%; top: 20px; width: 5px; height: 28px; margin-left: -2.5px; border-radius: 3px; background: var(--needle); box-shadow: 0 0 6px var(--glow); }
+.knob .mark { position: absolute; left: 50%; top: 12px; width: 4px; height: 18px; margin-left: -2px; border-radius: 2px; background: var(--needle); box-shadow: 0 0 6px var(--glow); }
 .det {
-  position: absolute; transform: translate(-50%, -50%); min-width: 48px; min-height: 44px; padding: 6px 6px 12px;
-  border: 0; background: none; cursor: pointer; color: var(--on-leather-muted); font-weight: 600; font-size: 15px;
+  position: absolute; transform: translate(-50%, -50%); min-width: 40px; min-height: 32px; padding: 3px 4px 9px;
+  border: 0; background: none; cursor: pointer; color: var(--on-leather-muted); font-weight: 600; font-size: 12px;
 }
 .det[aria-checked="true"] { color: var(--on-leather); }
-.det[aria-checked="true"]::after { content: ""; position: absolute; left: 50%; bottom: 3px; width: 6px; height: 6px; margin-left: -3px; border-radius: 50%; background: var(--needle); box-shadow: 0 0 6px var(--glow); }
-.selector .cap-txt { font-size: 13px; color: var(--on-leather-muted); }
-.selector .tgl { margin-top: 14px; }
+.det[aria-checked="true"]::after { content: ""; position: absolute; left: 50%; bottom: 2px; width: 5px; height: 5px; margin-left: -2.5px; border-radius: 50%; background: var(--needle); box-shadow: 0 0 6px var(--glow); }
 
 /* Centre controls */
-.mid { display: grid; justify-items: center; gap: 26px; }
-.row { display: flex; align-items: center; justify-content: center; gap: clamp(22px, 3vw, 40px); flex-wrap: wrap; }
+.mid { display: grid; justify-items: center; gap: 16px; }
+.row { display: flex; align-items: center; justify-content: center; gap: 12px; }
 .startbtn {
-  position: relative; width: 132px; height: 132px; border-radius: 50%; border: 0; padding: 9px; cursor: pointer;
+  position: relative; flex: none; width: 86px; height: 86px; border-radius: 50%; border: 0; padding: 6px; cursor: pointer;
   background: conic-gradient(from 200deg, var(--metal-hi), var(--metal-mid), var(--metal-hi), var(--metal-lo), var(--metal-hi));
-  box-shadow: 0 14px 24px -8px rgba(0,0,0,.7), 0 2px 3px rgba(0,0,0,.4);
+  box-shadow: 0 10px 18px -6px rgba(0,0,0,.7), 0 2px 3px rgba(0,0,0,.4);
   transition: transform .08s ease;
 }
 .startbtn:active { transform: scale(.97); }
 .startbtn .glass {
-  display: grid; place-content: center; gap: 2px; width: 100%; height: 100%; border-radius: 50%;
+  display: grid; place-content: center; gap: 1px; width: 100%; height: 100%; border-radius: 50%;
   background: radial-gradient(circle at 50% 32%, #2c2e33, #0b0c0e 72%); color: #f3efe7;
-  box-shadow: inset 0 3px 9px rgba(0,0,0,.75), inset 0 0 0 2px rgba(255,255,255,.06);
+  box-shadow: inset 0 3px 8px rgba(0,0,0,.75), inset 0 0 0 2px rgba(255,255,255,.06);
 }
-.startbtn .t { font-size: 24px; font-weight: 600; font-variation-settings: "wdth" 112; line-height: 1; }
-.startbtn .s { font-size: 12px; color: #a7a39c; }
-.startbtn .ring { position: absolute; inset: 4px; border-radius: 50%; pointer-events: none; box-shadow: 0 0 0 2px rgba(255,122,26,.35); animation: breathe 2.6s ease-in-out infinite; }
-.startbtn.on .ring { animation: none; box-shadow: 0 0 0 2px #ff7a1a, 0 0 18px rgba(255,122,26,.75); }
+.startbtn .t { font-size: 18px; font-weight: 600; font-variation-settings: "wdth" 112; line-height: 1; }
+.startbtn .s { font-size: 10px; color: #a7a39c; }
+.startbtn .ring { position: absolute; inset: 3px; border-radius: 50%; pointer-events: none; box-shadow: 0 0 0 2px rgba(255,122,26,.35); animation: breathe 2.6s ease-in-out infinite; }
+.startbtn.on .ring { animation: none; box-shadow: 0 0 0 2px #ff7a1a, 0 0 14px rgba(255,122,26,.75); }
 @keyframes breathe { 0%, 100% { opacity: .35; } 50% { opacity: 1; } }
 
 .key {
-  min-height: 56px; padding: 0 24px; border: 0; border-radius: 14px; cursor: pointer; color: #16191d; font-weight: 600; font-size: 16px;
+  min-height: 42px; padding: 0 14px; border: 0; border-radius: 12px; cursor: pointer; color: #16191d; font-weight: 600; font-size: 13px; white-space: nowrap;
   background: linear-gradient(180deg, var(--metal-hi), var(--metal-mid));
-  box-shadow: 0 7px 12px -4px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.8);
+  box-shadow: 0 6px 10px -4px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.8);
   transition: transform .08s ease;
 }
 .key:active { transform: translateY(2px); }
-.fader { display: grid; gap: 4px; width: min(240px, 100%); font-size: 13px; font-weight: 600; color: var(--on-leather-muted); }
-.fader input { -webkit-appearance: none; appearance: none; width: 100%; height: 40px; background: transparent; margin: 0; }
-.fader input::-webkit-slider-runnable-track { height: 8px; border-radius: 4px; background: #140b06; box-shadow: inset 0 2px 3px rgba(0,0,0,.85), 0 1px 0 rgba(255,255,255,.15); }
-.fader input::-webkit-slider-thumb { -webkit-appearance: none; width: 30px; height: 30px; margin-top: -11px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, var(--metal-hi), var(--metal-mid) 60%, var(--metal-lo)); box-shadow: 0 3px 6px rgba(0,0,0,.6); }
-.fader input::-moz-range-track { height: 8px; border-radius: 4px; background: #140b06; }
-.fader input::-moz-range-thumb { width: 30px; height: 30px; border: 0; border-radius: 50%; background: radial-gradient(circle at 35% 30%, var(--metal-hi), var(--metal-mid) 60%, var(--metal-lo)); }
+.fader { display: grid; width: 150px; font-size: 11px; font-weight: 600; color: var(--on-leather-muted); }
+.fader input { -webkit-appearance: none; appearance: none; width: 100%; height: 30px; background: transparent; margin: 0; }
+.fader input::-webkit-slider-runnable-track { height: 7px; border-radius: 4px; background: #140b06; box-shadow: inset 0 2px 3px rgba(0,0,0,.85), 0 1px 0 rgba(255,255,255,.15); }
+.fader input::-webkit-slider-thumb { -webkit-appearance: none; width: 24px; height: 24px; margin-top: -8.5px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, var(--metal-hi), var(--metal-mid) 60%, var(--metal-lo)); box-shadow: 0 3px 6px rgba(0,0,0,.6); }
+.fader input::-moz-range-track { height: 7px; border-radius: 4px; background: #140b06; }
+.fader input::-moz-range-thumb { width: 24px; height: 24px; border: 0; border-radius: 50%; background: radial-gradient(circle at 35% 30%, var(--metal-hi), var(--metal-mid) 60%, var(--metal-lo)); }
 
 /* Pedals */
-.pedals { display: flex; align-items: flex-end; gap: 20px; perspective: 700px; }
-.pd { display: grid; justify-items: center; gap: 10px; font-size: 13px; font-weight: 600; color: var(--on-leather-muted); }
+.pedals { display: flex; align-items: flex-end; justify-content: center; gap: 14px; perspective: 600px; }
+.pd { display: grid; justify-items: center; gap: 5px; font-size: 11px; font-weight: 600; color: var(--on-leather-muted); }
 .pbtn {
-  position: relative; border: 0; padding: 0; cursor: pointer; border-radius: 16px 16px 22px 22px;
+  position: relative; border: 0; padding: 0; cursor: pointer; border-radius: 12px 12px 16px 16px;
   background: linear-gradient(180deg, var(--metal-hi), var(--metal-mid) 55%, var(--metal-lo));
-  box-shadow: 0 16px 22px -8px rgba(0,0,0,.75), inset 0 1px 0 rgba(255,255,255,.8);
+  box-shadow: 0 12px 18px -7px rgba(0,0,0,.75), inset 0 1px 0 rgba(255,255,255,.8);
   transform-origin: 50% 100%; transition: transform .08s ease, box-shadow .08s ease;
   touch-action: none; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
 }
-.pbtn::before { content: ""; position: absolute; inset: 13px 14px; border-radius: 8px; background: repeating-linear-gradient(180deg, var(--rubber) 0 9px, transparent 9px 14px); box-shadow: inset 0 1px 2px rgba(0,0,0,.6); }
-#pedal { width: 100px; height: 220px; }
-#brake { width: 148px; height: 138px; }
-.pbtn.down { transform: rotateX(24deg) translateY(4px); box-shadow: 0 6px 10px -6px rgba(0,0,0,.75), inset 0 1px 0 rgba(255,255,255,.8); }
-
-/* GPS test readout */
-.gps {
-  display: none; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px 24px;
-  padding: 18px 26px; border-radius: 22px; background: var(--strip); color: var(--strip-ink);
-  box-shadow: inset 0 2px 7px rgba(0,0,0,.5);
-}
-.gps.show { display: grid; }
-.gps h2 { grid-column: 1 / -1; display: flex; align-items: center; gap: 10px; margin: 0; font-size: 18px; font-weight: 600; font-variation-settings: "wdth" 110; }
-.gps .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--strip-muted); }
-.gps .dot.live { background: #3fbf6a; box-shadow: 0 0 8px rgba(63,191,106,.7); }
-.gps .dot.stale { background: #e0a92e; }
-.gps .dot.err { background: var(--red); }
-.gps .k { font-size: 13px; color: var(--strip-muted); }
-.gps .v { font-size: 20px; font-weight: 600; font-variant-numeric: tabular-nums; font-variation-settings: "wdth" 90; overflow-wrap: anywhere; }
-.gps .msg { grid-column: 1 / -1; margin: 0; font-size: 14px; color: var(--strip-muted); }
+.pbtn::before { content: ""; position: absolute; inset: 9px; border-radius: 6px; background: repeating-linear-gradient(180deg, var(--rubber) 0 7px, transparent 7px 11px); box-shadow: inset 0 1px 2px rgba(0,0,0,.6); }
+#pedal { width: 62px; height: 168px; }
+#brake { width: 96px; height: 92px; }
+.pbtn.down { transform: rotateX(24deg) translateY(3px); box-shadow: 0 5px 8px -5px rgba(0,0,0,.75), inset 0 1px 0 rgba(255,255,255,.8); }
 .pbtn[aria-disabled="true"], .key[aria-disabled="true"], .sw[aria-disabled="true"] { opacity: .4; cursor: not-allowed; }
 
-.note { margin: 0; color: var(--muted); font-size: 14px; max-width: 92ch; }
-
-@media (max-width: 1120px) {
-  .console { grid-template-columns: auto auto; justify-content: space-around; }
-  .mid { grid-column: 1 / -1; order: 3; }
-}
-@media (max-width: 820px) {
-  .dials { grid-template-columns: 1fr 1fr; }
-  .dial.main { grid-column: 1 / -1; order: -1; width: 82%; justify-self: center; }
-  .strip { grid-template-columns: 1fr 1fr; border-radius: 26px; padding: 12px 20px; }
-  .strip canvas { grid-column: 1 / -1; grid-row: 2; }
-  .console { grid-template-columns: 1fr; justify-items: center; }
-  .mid { order: 0; }
-}
 @media (prefers-reduced-motion: reduce) {
   .startbtn .ring { animation: none; opacity: .8; }
   .knob, .sw .lever, .pbtn, .scale, .readout { transition: none; }
@@ -291,34 +269,33 @@ button:focus-visible, input:focus-visible { outline: 3px solid var(--needle); ou
 </style>
 </head>
 <body>
-<div class="app">
-  <header class="top">
-    <div>
-      <h1>Engine sound simulator</h1>
-      <p>Choose an engine, start it, and press the accelerator.</p>
-    </div>
-    <div class="tgl">
-      <span class="tl" id="tDay">Day</span>
-      <button class="sw" id="themeSw" type="button" role="switch" aria-checked="false" aria-label="Day mode"><span class="lever"></span><span class="nut"></span></button>
-      <span class="tl" id="tNight">Night</span>
-    </div>
-  </header>
-
+<h1 class="vh">Engine sound simulator</h1>
+<div class="fit" id="fit">
   <section class="binnacle off" id="binnacle" aria-label="Instrument binnacle">
     <div class="dials">
       <div class="dial side"><div class="face"><svg id="dSpeed" role="img" aria-label="Speedometer"></svg></div></div>
       <div class="dial main"><div class="face"><svg id="dTach" role="img" aria-label="Tachometer"></svg></div></div>
       <div class="dial side"><div class="face"><svg id="dPower" role="img" aria-label="Power and gear"></svg></div></div>
     </div>
-    <div class="strip">
-      <div>
+    <div class="strip" id="strip">
+      <div class="sl">
         <div class="s-main" id="engName">Cross-plane V8</div>
         <div class="s-sub" id="engDesc"></div>
       </div>
-      <canvas id="wave" aria-hidden="true"></canvas>
-      <div class="right" aria-live="polite">
+      <div class="sc">
+        <canvas id="wave" aria-hidden="true"></canvas>
+        <div class="mini" id="gMini" aria-label="GPS test readout">
+          <div><div class="k">GPS</div><div class="v"><span class="dot" id="gDot"></span><span id="gState">Waiting</span></div></div>
+          <div><div class="k" id="gSrc">Speed</div><div class="v" id="gSpeed">–</div></div>
+          <div><div class="k">Accel.</div><div class="v" id="gAcc">–</div></div>
+          <div><div class="k" id="gInt">Updated</div><div class="v" id="gAge">–</div></div>
+          <div><div class="k">Accuracy</div><div class="v" id="gAccy">–</div></div>
+        </div>
+        <div class="gerr" id="gErr"></div>
+      </div>
+      <div class="sr" aria-live="polite">
         <div class="s-main" id="sMain">Engine off</div>
-        <div class="s-sub" id="sSub">Press Start to fire it up.</div>
+        <div class="s-sub" id="sSub">Press Start. Parked or passenger use only.</div>
       </div>
     </div>
   </section>
@@ -328,7 +305,6 @@ button:focus-visible, input:focus-visible { outline: 3px solid var(--needle); ou
       <div class="knobwrap" id="knobwrap" role="radiogroup" aria-label="Engine">
         <button class="knob" id="knob" type="button" aria-label="Engine selector"><span class="cap"></span><span class="mark"></span></button>
       </div>
-      <span class="cap-txt">Turn or tap to choose an engine</span>
       <div class="tgl">
         <span class="tl on" id="tGas">Gas</span>
         <button class="sw" id="kindSw" type="button" role="switch" aria-checked="true" aria-label="Gas engine sounds"><span class="lever"></span><span class="nut"></span></button>
@@ -349,9 +325,14 @@ button:focus-visible, input:focus-visible { outline: 3px solid var(--needle); ou
           <button class="sw" id="gpsSw" type="button" role="switch" aria-checked="false" aria-label="Use the car’s GPS speed"><span class="lever"></span><span class="nut"></span></button>
           <span class="tl on" id="tManual">Manual</span>
         </div>
+        <div class="tgl">
+          <span class="tl" id="tDay">Day</span>
+          <button class="sw" id="themeSw" type="button" role="switch" aria-checked="false" aria-label="Day mode"><span class="lever"></span><span class="nut"></span></button>
+          <span class="tl" id="tNight">Night</span>
+        </div>
       </div>
       <div class="row">
-        <button class="key" id="launchBtn" type="button">0–60 mph launch</button>
+        <button class="key" id="launchBtn" type="button">0–60 launch</button>
         <label class="fader">Volume<input id="vol" type="range" min="0" max="100" value="70"></label>
       </div>
     </div>
@@ -361,21 +342,6 @@ button:focus-visible, input:focus-visible { outline: 3px solid var(--needle); ou
       <div class="pd"><button class="pbtn" id="pedal" type="button" aria-label="Accelerator, press and hold"></button><span>Accelerator</span></div>
     </div>
   </section>
-
-  <section class="gps" id="gpsPanel" aria-label="GPS test readout">
-    <h2><span class="dot" id="gDot"></span><span id="gState">Waiting for location</span></h2>
-    <div><div class="k">GPS speed</div><div class="v" id="gSpeed">–</div></div>
-    <div><div class="k">Speed source</div><div class="v" id="gSrc">–</div></div>
-    <div><div class="k">Acceleration</div><div class="v" id="gAcc">–</div></div>
-    <div><div class="k">Update interval</div><div class="v" id="gInt">–</div></div>
-    <div><div class="k">Last update</div><div class="v" id="gAge">–</div></div>
-    <div><div class="k">Accuracy</div><div class="v" id="gAccy">–</div></div>
-    <div><div class="k">Updates received</div><div class="v" id="gN">0</div></div>
-    <div><div class="k">Position</div><div class="v" id="gPos">–</div></div>
-    <p class="msg" id="gMsg">Your location stays on this screen. The page doesn’t send it anywhere.</p>
-  </section>
-
-  <p class="note">Use while parked or as a passenger, and switch on GPS mode before you drive. Manual mode is an on-screen simulation. GPS mode follows the car’s reported speed but can’t read the pedal, so the sound reacts after the car does. Engine sounds are synthesized approximations, not recordings.</p>
 </div>
 
 <script>
@@ -530,8 +496,8 @@ button:focus-visible, input:focus-visible { outline: 3px solid var(--needle); ou
       b.setAttribute('role', 'radio'); b.setAttribute('aria-label', e.name);
       b.textContent = e.short;
       var a = detAngle(i) * Math.PI / 180;
-      b.style.left = 'calc(50% + ' + (Math.sin(a) * 104).toFixed(1) + 'px)';
-      b.style.top = 'calc(50% - ' + (Math.cos(a) * 104).toFixed(1) + 'px)';
+      b.style.left = 'calc(50% + ' + (Math.sin(a) * 70).toFixed(1) + 'px)';
+      b.style.top = 'calc(50% - ' + (Math.cos(a) * 70).toFixed(1) + 'px)';
       b.addEventListener('click', function () { selectEngine(e.id); });
       knobwrap.appendChild(b);
     });
@@ -867,7 +833,7 @@ button:focus-visible, input:focus-visible { outline: 3px solid var(--needle); ou
     if (L.active) {
       L.t += dt;
       if (brake) { L.active = false; gas = S.held || S.keyGas; setStatus('Launch cancelled', 'Brake applied.'); }
-      else if (S.v >= 60) { L.active = false; setStatus('0–60 mph in ' + L.t.toFixed(1) + ' s', 'Simulated launch, ' + eng.name + '.'); }
+      else if (S.v >= 60) { L.active = false; setStatus('0–60 mph in ' + L.t.toFixed(1) + ' s', 'Simulated launch.'); }
     }
     var tgt = gas ? 1 : 0;
     var rate = tgt > S.thr ? 3.5 : 5;
@@ -949,8 +915,8 @@ button:focus-visible, input:focus-visible { outline: 3px solid var(--needle); ou
     G.n++; G.lastSeen = performance.now(); G.err = '';
   }
   function onGeoErr(e) {
-    if (e.code === 1) G.err = 'Location access is blocked. Allow location for this page in the browser, then switch GPS off and on again. If no permission prompt appeared, open the artifact link directly in the browser instead of inside the chat.';
-    else if (e.code === 2) G.err = 'The car didn’t provide a position. Check that it has a GPS signal.';
+    if (e.code === 1) G.err = 'Location blocked. Allow location for this site in the browser, then switch GPS off and on.';
+    else if (e.code === 2) G.err = 'The car isn\u2019t providing a position. Check its GPS signal.';
     else G.err = 'No position yet. Still trying.';
   }
   var gpsSw = $('#gpsSw');
@@ -964,6 +930,7 @@ button:focus-visible, input:focus-visible { outline: 3px solid var(--needle); ou
       if (S.on) { pickGear(); setStatus('GPS mode', 'Sound follows the car’s GPS speed.'); }
     } else {
       G.on = false;
+      if (navigator.geolocation) G.err = '';
       if (G.id != null && navigator.geolocation) { navigator.geolocation.clearWatch(G.id); G.id = null; }
       if (S.on) setStatus('Manual mode', 'Use the on-screen pedals.');
     }
@@ -971,8 +938,7 @@ button:focus-visible, input:focus-visible { outline: 3px solid var(--needle); ou
     $('#tGps').classList.toggle('on', G.on);
     $('#tManual').classList.toggle('on', !G.on);
     ['#pedal', '#brake', '#launchBtn', '#modeSw'].forEach(function (s) { $(s).setAttribute('aria-disabled', G.on ? 'true' : 'false'); });
-    $('#gpsPanel').classList.toggle('show', G.on || !!G.err);
-    updateGpsPanel(1);
+    gT = 0; updateGpsPanel(1); sizeCanvas();
   }
   gpsSw.addEventListener('click', function () { setGps(!G.on); });
 
@@ -1017,36 +983,37 @@ button:focus-visible, input:focus-visible { outline: 3px solid var(--needle); ou
     gT -= dt;
     if (gT > 0) return;
     gT = 0.25;
-    if (!G.on && !G.err) return;
+    var strip = $('#strip');
+    var showErr = !!G.err && (G.n === 0 || !G.on);
+    strip.classList.toggle('gps-on', G.on || showErr);
+    strip.classList.toggle('gps-err', showErr);
+    if (showErr) { $('#gErr').textContent = G.err; return; }
+    if (!G.on) return;
     var age = G.lastSeen ? (performance.now() - G.lastSeen) / 1000 : null;
     var dot = $('#gDot'), state;
     dot.className = 'dot';
-    if (!G.on) { state = 'GPS off'; dot.classList.add('err'); }
-    else if (G.n === 0 && G.err) { state = 'Location unavailable'; dot.classList.add('err'); }
-    else if (G.n === 0) { state = 'Waiting for location'; }
-    else if (age > 4) { state = 'Signal stale'; dot.classList.add('stale'); }
+    if (G.n === 0) state = 'Waiting';
+    else if (age > 4) { state = 'Stale'; dot.classList.add('stale'); }
     else { state = 'Live'; dot.classList.add('live'); }
     $('#gState').textContent = state;
-    $('#gSpeed').textContent = G.mph != null ? G.mph.toFixed(1) + ' mph' : '–';
-    $('#gSrc').textContent = G.src || '–';
-    $('#gAcc').textContent = G.lastMph != null && G.n > 1 ? (G.accel >= 0 ? '+' : '') + G.accel.toFixed(1) + ' mph/s' : '–';
-    $('#gInt').textContent = G.int != null ? 'Every ' + G.int.toFixed(1) + ' s' : '–';
-    $('#gAge').textContent = age != null ? age.toFixed(1) + ' s ago' : '–';
-    $('#gAccy').textContent = G.acc != null ? '±' + Math.round(G.acc) + ' m' : '–';
-    $('#gN').textContent = String(G.n);
-    $('#gPos').textContent = G.lat != null ? G.lat.toFixed(5) + ', ' + G.lon.toFixed(5) : '–';
-    $('#gMsg').textContent = G.err || 'Your location stays on this screen. The page doesn’t send it anywhere.';
+    $('#gSpeed').textContent = G.mph != null ? G.mph.toFixed(1) + ' mph' : '\u2013';
+    $('#gSrc').textContent = G.src === 'Reported by car' ? 'Speed (car)' : (G.src ? 'Speed (calc.)' : 'Speed');
+    $('#gAcc').textContent = G.lastMph != null && G.n > 1 ? (G.accel >= 0 ? '+' : '') + G.accel.toFixed(1) + ' mph/s' : '\u2013';
+    $('#gInt').textContent = G.int != null ? 'Every ' + G.int.toFixed(1) + ' s' : 'Updated';
+    $('#gAge').textContent = age != null ? age.toFixed(1) + ' s ago' : '\u2013';
+    $('#gAccy').textContent = G.acc != null ? '\u00b1' + Math.round(G.acc) + ' m' : '\u2013';
   }
 
   /* ---------- Rendering ---------- */
   var dpr = Math.max(1, window.devicePixelRatio || 1);
   var cv = $('#wave'), c2 = cv.getContext('2d');
-  function sizeCanvas() { cv.width = Math.round(cv.clientWidth * dpr); cv.height = Math.round(cv.clientHeight * dpr); }
+  var SCALE = 1;
+  function sizeCanvas() { cv.width = Math.max(1, Math.round(cv.clientWidth * dpr * SCALE)); cv.height = Math.max(1, Math.round(cv.clientHeight * dpr * SCALE)); }
   function css(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
   function drawWave() {
     var w = cv.width, h = cv.height;
     c2.clearRect(0, 0, w, h);
-    c2.lineWidth = 2 * dpr; c2.lineJoin = 'round';
+    c2.lineWidth = 2 * dpr * SCALE; c2.lineJoin = 'round';
     if (!A || !S.on) {
       c2.strokeStyle = css('--strip-muted'); c2.globalAlpha = 0.5;
       c2.beginPath(); c2.moveTo(0, h / 2); c2.lineTo(w, h / 2); c2.stroke();
@@ -1119,7 +1086,7 @@ button:focus-visible, input:focus-visible { outline: 3px solid var(--needle); ou
         $('#startT').textContent = 'Start';
         startBtn.setAttribute('aria-label', 'Start engine');
         startBtn.classList.remove('on'); bin.classList.add('off');
-        setStatus('Engine off', 'Press Start to fire it up.');
+        setStatus('Engine off', 'Press Start. Parked or passenger use only.');
         setTimeout(function () { if (!S.on && ctx) ctx.suspend(); }, 450);
       }
     } catch (err) {
@@ -1252,8 +1219,21 @@ button:focus-visible, input:focus-visible { outline: 3px solid var(--needle); ou
   buildKnob();
   syncKind();
   selectEngine(eng.id);
-  sizeCanvas();
-  if (window.ResizeObserver) new ResizeObserver(sizeCanvas).observe(cv); else window.addEventListener('resize', sizeCanvas);
+  var fitEl = $('#fit');
+  function fit() {
+    var cs = getComputedStyle(document.documentElement);
+    var pt = parseFloat(cs.paddingTop) || 0, pb = parseFloat(cs.paddingBottom) || 0;
+    var vw = document.documentElement.clientWidth || window.innerWidth;
+    var vh = Math.max(100, window.innerHeight - pt - pb);
+    var k = Math.min(vw / 733, vh / 601);
+    SCALE = k;
+    fitEl.style.transform = 'translate(' + ((vw - 733 * k) / 2).toFixed(1) + 'px, ' + (pt + (vh - 601 * k) / 2).toFixed(1) + 'px) scale(' + k.toFixed(4) + ')';
+    sizeCanvas();
+  }
+  fit();
+  window.addEventListener('resize', fit);
+  window.addEventListener('orientationchange', fit);
+  if (window.ResizeObserver) new ResizeObserver(sizeCanvas).observe(cv);
   requestAnimationFrame(frame);
 })();
 </script>
